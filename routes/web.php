@@ -18,6 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/thankyou', function () {
+    return view('thankyou');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('questionnaires', 'QuestionnaireController');
 
