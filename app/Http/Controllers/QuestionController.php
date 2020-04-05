@@ -14,9 +14,10 @@ class QuestionController extends Controller
 
     public function store(Questionnaire $questionnaire)
     {
+
         $data = request()->validate([
             'question.question' => 'required',
-            'answers.*.answer' => 'required',
+            'answers.*.answer' => 'required:min:3',
         ]);
 
         $question = $questionnaire->questions()->create($data['question']);
@@ -30,7 +31,8 @@ class QuestionController extends Controller
         $question->answers()->delete();
         $question->delete();
         $question->responses()->delete();
-
         return redirect($questionnaire->path())->with('success', 'Question deleted successfully');
     }
+
+    
 }

@@ -19,12 +19,8 @@ class QuestionnaireController extends Controller
 
     public function store()
     {
-        $data = request()->validate([
-            'title' => 'required|min:5',
-            'purpose' => 'required|max:50',
-        ]);
 
-        $questionnaire = auth()->user()->questionnaires()->create($data);
+        $questionnaire = auth()->user()->questionnaires()->create($this->validatedData());
         return view('questionnaire.show', compact('questionnaire'));
     }
 
@@ -43,5 +39,26 @@ class QuestionnaireController extends Controller
         $questionnaire->responses()->delete();
         $questionnaire->delete();
         return redirect('/home')->with('success', 'Questionnaire Deleted Successfully.');
+    }
+
+    public function edit(Questionnaire $questionnaire)
+    {
+        $questionnaire->load('questions.answers.responses');
+        return view('questionnaire.edit', compact('questionnaire'));
+    }
+
+    public function update(Questionnaire $questionnaire)
+    {
+        
+        $questionnaire->update($this->validatedData());
+        return redirect('/home')->with('success', 'Questionnaire Updated Successfully');
+    }
+
+    protected function validatedData()
+    {
+        return request()->validate([
+            'title' => 'required|min:5',
+            'purpose' => 'required|max:50',
+        ]);
     }
 }

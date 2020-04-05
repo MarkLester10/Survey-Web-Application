@@ -46,12 +46,13 @@
                     <small class="font-weight-bold mt-3">Total Respondents:&ThickSpace;{{$question->responses->count()}}</small>
                 </ul>
               </div>
-              <div class="card-footer">
+              <div class="card-footer d-flex justify-content-between">
                   <form action="/questionnaires/{{$questionnaire->id}}/questions/{{$question->id}}" method="POST">
                       @method('DELETE')
                       @csrf
                       <button type="submit" class="btn btn-outline-danger btn-sm">Delete Question</button>
                   </form>
+                  <a class="btn btn-success btn-sm" href="/questionnaires/{{$questionnaire->id}}/questions/{{$question->id}}/edit">Edit</a>
               </div>
             </div>
             @empty
